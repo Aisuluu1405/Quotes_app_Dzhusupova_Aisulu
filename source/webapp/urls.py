@@ -3,6 +3,6 @@ from webapp.views import IndexView
 
 app_name = 'webapp'
 
-url_patterns = [
+urlpatterns = [
     path('', IndexView.as_view(), name='index')
 ]
