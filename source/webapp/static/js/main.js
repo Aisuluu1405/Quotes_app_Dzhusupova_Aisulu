@@ -18,7 +18,6 @@ function makeRequest(path, method, auth=true, data=null) {
     }
     if (auth) {
         settings.headers = {'Authorization': 'Token ' + getToken()};
-        // request.headers['Authorization'] = 'Token' + getToken();
     }
     return $.ajax(settings);
 }

@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, response
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, SAFE_METHODS, AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -13,11 +13,35 @@ from webapp.models import Quote, QUETE_VERIFIED
 class QuoteViewSet(ModelViewSet):
     queryset = Quote.objects.all()
     serializer_class = QuoteSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+    def get_permissions(self):
+        if self.request.method in SAFE_METHODS + ['POST']:
+            return [AllowAny]
+        return [IsAuthenticated()]
+
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
             return Quote.objects.all()
         return Quote.objects.filter(status=QUETE_VERIFIED)
+
+
+    @action(methods=['post'], detail=True)
+    def rate_up(self, request, pk=None):
+        quote = self.get_object()
+        quote.raiting += 1
+        quote.save()
+        return Response({'id': quote.pk, 'raiting': quote.raiting})
+
+
+    @action(methods=['post'], detail=True)
+    def rate_down(self, request, pk=None):
+        quote = self.get_object()
+        quote.raiting -= 1
+        quote.save()
+        return Response({'id': quote.pk, 'raiting': quote.raiting})
 
 
 class LogoutView(APIView):
