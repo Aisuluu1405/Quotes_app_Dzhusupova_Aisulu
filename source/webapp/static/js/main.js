@@ -151,11 +151,14 @@ function getQuotes() {
                     <p><a href="#" class="btn btn-success ml-3" id="rate_up_${item.id}">+</a>
                     <a href="#" class="btn btn-success ml-5" id="rate_down_${item.id}">-</a></p>
                 <p class="text m-3" id="rating_${item.id}">Рейтинг цитаты: ${item.raiting}</p>
-                <p><a href="#" class="btn btn-success ml-3" id="detail_${item.id}">Подробнее</a>
-                
-                    <a href="#" class="edit btn btn-info ml-3" id="edit_${item.id}" data-toggle="modal" data-target="#form_modal">Редактировать</a>
-                    <a href="#" class="delete btn btn-danger ml-3" id="delete_${item.id}">Удалить</a></p>
-              </div>`));
+                <div><a href="#" class="btn btn-success ml-3" id="detail_${item.id}">Подробнее</a>
+                </div>`));
+                if (token) {
+                    content.append($(`
+                    <a href="#" class="edit btn btn-info ml-5" id="edit_${item.id}" data-toggle="modal" data-target="#form_modal">Изменить цитату</a>
+                    <a href="#" class="delete btn btn-danger ml-5" id="delete_${item.id}">Удалить цитату</a></p>
+                `))
+                }
             $('#detail_' + item.id).on('click', function(event) {
                 console.log('click');
                 event.preventDefault();
