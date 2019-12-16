@@ -34,7 +34,7 @@ function removeToken() {
 }
 
 
-
+// функция для входа
 function logIn(username, password) {
     let editQuote = $("#edit_");
     const credentials = {username, password};
@@ -55,6 +55,7 @@ function logIn(username, password) {
     });
 }
 
+// функция для выхода
 function logOut() {
     let request = makeRequest('logout', 'post', true);
 
@@ -69,6 +70,8 @@ function logOut() {
         console.log(response.responseText);
     });
 }
+
+// объявление глобальных переменных
 
 let logInForm, quoteForm, homeLink, enterLink, exitLink, formSubmit, formTitle, content, formModal,
     usernameInput, passwordInput, authorInput, textInput, emailInput, createLink, quoteFormEdit, textInputEdit, ratingInput, statusSelect;
@@ -95,6 +98,7 @@ function setUpGlobalVars() {
     statusSelect = $('#status_select');
 }
 
+
 function setUpAuth() {
     logInForm.on('submit', function(event) {
         event.preventDefault();
@@ -119,6 +123,7 @@ function setUpAuth() {
     });
 }
 
+// проверка на аутентификацию
 function checkAuth() {
     let token = getToken();
     if(token) {
@@ -130,6 +135,7 @@ function checkAuth() {
     }
 }
 
+// вывод списка цитат на главной странице
 function getQuotes() {
     let request = makeRequest('quotes', 'get', false);
     let token = getToken();
@@ -139,7 +145,6 @@ function getQuotes() {
     request.done(function(data, status, response) {
         console.log(data);
         content.empty();
-
         data.forEach(function(item, index, array) {
             content.append($(`<div class="card m-5" id="quote_${item.id}">
                 <p class="text m-3 "><b>Цитата: </b>${item.text}</p>
@@ -149,11 +154,9 @@ function getQuotes() {
                 <p id="rating_${item.id}">Рейтинг цитаты: ${item.raiting}</p>
                 <p><a href="#" class="btn btn-success ml-3" id="detail_${item.id}">Подробнее</a>
                 
-                    <a href="#" class="d-none btn btn-info ml-3" id="edit_${item.id}" data-toggle="modal" data-target="#form_modal">Редактировать</a>
-                    <a href="#" class="delete d-none btn btn-danger ml-3 d-none" id="delete_${item.id}">Удалить</a></p>
-                
-                    
-            </div>`));
+                    <a href="#" class="btn btn-info ml-3" id="edit_${item.id}" data-toggle="modal" data-target="#form_modal">Редактировать</a>
+                    <a href="#" class="btn btn-danger ml-3" id="delete_${item.id}">Удалить</a></p>
+              </div>`));
             $('#detail_' + item.id).on('click', function(event) {
                 console.log('click');
                 event.preventDefault();
@@ -168,7 +171,6 @@ function getQuotes() {
                 event.preventDefault();
                 quoteDelete(item.id);
             });
-
             $('#rate_up_' + item.id).on('click', function(event) {
                 console.log('click');
                 event.preventDefault();
@@ -180,20 +182,19 @@ function getQuotes() {
                 rateDown(item.id);
             });
         });
-
     }).fail(function(response, status, message) {
         console.log('Could not get quotes.');
         console.log(response.responseText);
     });
 }
 
+// функция для вывода формы для добавления цитаты
 function formQuote(){
     quoteForm.on('submit', function(event) {
         event.preventDefault();
         console.log('yes')
         addQuote(textInput.val(), authorInput.val(), emailInput.val());
     });
-
     createLink.on('click', function(event) {
         event.preventDefault();
         logInForm.addClass('d-none');
@@ -207,6 +208,7 @@ function formQuote(){
     });
 }
 
+// функция добавления цитаты
 function addQuote(text, author, email) {
     const credentials = {text, author, email};
     let token = getToken();
@@ -223,9 +225,9 @@ function addQuote(text, author, email) {
         console.log('Цитата не создана!');
         console.log(response.responseText);
     });
-
 }
 
+// функция для просмотра одной цитаты по id
 function quoteView(id){
     let request =  makeRequest('quotes/' + id, 'get', true);
     request.done(function(item)
@@ -245,26 +247,21 @@ function quoteView(id){
         getQuotes();
     });
     }
-
     ).fail(function(response, status, message){
         console.log('Цитата не открывается!');
         console.log(response.responseText);
     });
 }
 
-
-
+// функция вызова формы для редактирования цитаты
 function editForm(item){
     textInputEdit.val(item.text);
     ratingInput.val(item.raiting);
     statusSelect.val(item.status);
-    let updateLink = $('#edit_' + item.id);
-
     quoteFormEdit.on('submit', function(event) {
         event.preventDefault();
         quoteEdit(item.id, textInputEdit.val(), ratingInput.val(), statusSelect.val());
     });
-
     console.log('yes');
     event.preventDefault();
     logInForm.addClass('d-none');
@@ -276,12 +273,11 @@ function editForm(item){
     formSubmit.on('click', function(event) {
         quoteFormEdit.submit()
     });
-
-
 }
+
+// функция редактирования цитаты
 function quoteEdit(id, text, raiting, status){
     const credentials = {text, raiting, status};
-    console.log('this');
     console.log(credentials);
     let request = makeRequest('quotes/' + id, 'patch', true, credentials);
     request.done(function (data) {
@@ -295,12 +291,11 @@ function quoteEdit(id, text, raiting, status){
     });
 }
 
-
+// функуция удаления цитаты
 function quoteDelete(id){
     let request = makeRequest('quotes/' + id, 'delete', true);
     request.done(function(id)
         {console.log('Цитата удалена!')}
-
     ).fail(function (response, status, message){
         console.log('Цитата не удалена!');
         console.log(response.responseText);
@@ -308,6 +303,7 @@ function quoteDelete(id){
     getQuotes();
 }
 
+// функция увелечения рейтинга
 function rateUp(id) {
     let request = makeRequest('quotes/' + id + '/rate_up', 'post', false);
     request.done(function(data, status, response) {
@@ -319,6 +315,8 @@ function rateUp(id) {
     });
 }
 
+
+// функция уменьшения рейтинга
 function rateDown(id) {
     let request = makeRequest('quotes/' + id + '/rate_down', 'post', false);
     request.done(function(data, status, response) {
@@ -329,8 +327,6 @@ function rateDown(id) {
         console.log(response.responseText);
     });
 }
-
-
 
 $(document).ready(function() {
     setUpGlobalVars();
