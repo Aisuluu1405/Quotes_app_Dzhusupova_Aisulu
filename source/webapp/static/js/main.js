@@ -36,7 +36,8 @@ function removeToken() {
 
 // функция для входа
 function logIn(username, password) {
-    let editQuote = $("#edit_");
+    let editQuote = $(".edit");
+    let deleteQuote = $(".delete");
     const credentials = {username, password};
 
     let request = makeRequest('login', 'post', false, credentials);
@@ -48,7 +49,10 @@ function logIn(username, password) {
         enterLink.addClass('d-none');
         exitLink.removeClass('d-none');
         editQuote.removeClass('d-none');
+        deleteQuote.removeClass('d-none');
+
         getQuotes();
+
     }).fail(function(response, status, message) {
         console.log('Could not get token');
         console.log(response.responseText);
@@ -57,6 +61,9 @@ function logIn(username, password) {
 
 // функция для выхода
 function logOut() {
+    let editQuote = $(".edit");
+    let deleteQuote = $(".delete");
+
     let request = makeRequest('logout', 'post', true);
 
     request.done(function(data, status, response) {
@@ -64,6 +71,9 @@ function logOut() {
         removeToken();
         enterLink.removeClass('d-none');
         exitLink.addClass('d-none');
+
+        editQuote.addClass('d-none');
+        deleteQuote.addClass('d-none');
         getQuotes();
     }).fail(function(response, status, message) {
         console.log('Could not clean token');
@@ -154,8 +164,8 @@ function getQuotes() {
                 <p id="rating_${item.id}">Рейтинг цитаты: ${item.raiting}</p>
                 <p><a href="#" class="btn btn-success ml-3" id="detail_${item.id}">Подробнее</a>
                 
-                    <a href="#" class="btn btn-info ml-3" id="edit_${item.id}" data-toggle="modal" data-target="#form_modal">Редактировать</a>
-                    <a href="#" class="btn btn-danger ml-3" id="delete_${item.id}">Удалить</a></p>
+                    <a href="#" class="edit btn btn-info ml-3" id="edit_${item.id}" data-toggle="modal" data-target="#form_modal">Редактировать</a>
+                    <a href="#" class="delete btn btn-danger ml-3" id="delete_${item.id}">Удалить</a></p>
               </div>`));
             $('#detail_' + item.id).on('click', function(event) {
                 console.log('click');
@@ -229,7 +239,11 @@ function addQuote(text, author, email) {
 
 // функция для просмотра одной цитаты по id
 function quoteView(id){
-    let request =  makeRequest('quotes/' + id, 'get', true);
+    let request = makeRequest('quotes/' + id, 'get', false);
+    let token = getToken();
+    if (token) {
+        request = makeRequest('quotes/' + id, 'get', true);
+    }
     request.done(function(item)
     {
         content.empty();
