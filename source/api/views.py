@@ -13,19 +13,17 @@ from webapp.models import Quote, QUETE_VERIFIED
 class QuoteViewSet(ModelViewSet):
     queryset = Quote.objects.all()
     serializer_class = QuoteSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-
-    def get_permissions(self):
-        if self.request.method in SAFE_METHODS + ['POST']:
-            return [AllowAny]
-        return [IsAuthenticated()]
 
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
             return Quote.objects.all()
         return Quote.objects.filter(status=QUETE_VERIFIED)
+
+    def get_permissions(self):
+        if self.action not in ['update', 'partial_update', 'destroy']:
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
 
     @action(methods=['post'], detail=True)
