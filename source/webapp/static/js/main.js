@@ -168,6 +168,17 @@ function getQuotes() {
                 event.preventDefault();
                 quoteDelete(item.id);
             });
+
+            $('#rate_up_' + item.id).on('click', function(event) {
+                console.log('click');
+                event.preventDefault();
+                rateUp(item.id);
+            });
+            $('#rate_down_' + item.id).on('click', function(event) {
+                console.log('click');
+                event.preventDefault();
+                rateDown(item.id);
+            });
         });
 
     }).fail(function(response, status, message) {
@@ -295,6 +306,28 @@ function quoteDelete(id){
         console.log(response.responseText);
     });
     getQuotes();
+}
+
+function rateUp(id) {
+    let request = makeRequest('quotes/' + id + '/rate_up', 'post', false);
+    request.done(function(data, status, response) {
+        console.log('Rated up quote with id ' + id + '.');
+        $('#rating_' + id).text('Рейтинг цитаты: ' + data.raiting);
+    }).fail(function(response, status, message) {
+        console.log('Could not rate up quote with id ' + id + '.');
+        console.log(response.responseText);
+    });
+}
+
+function rateDown(id) {
+    let request = makeRequest('quotes/' + id + '/rate_down', 'post', false);
+    request.done(function(data, status, response) {
+        console.log('Rated up quote with id ' + id + '.');
+        $('#rating_' + id).text('Рейтинг цитаты: ' +  data.raiting);
+    }).fail(function(response, status, message) {
+        console.log('Could not rate up quote with id ' + id + '.');
+        console.log(response.responseText);
+    });
 }
 
 
