@@ -156,12 +156,12 @@ function getQuotes() {
         console.log(data);
         content.empty();
         data.forEach(function(item, index, array) {
-            content.append($(`<div class="card m-5" id="quote_${item.id}">
+            content.append($(`<div class="card m-5 p-5" id="quote_${item.id}">
                 <p class="text m-3 "><b>Цитата: </b>${item.text}</p>
-                <p>Установить рейтинг для цитаты:</p>
-                <p><a href="#" class="btn btn-success ml-3" id="rate_up_${item.id}">+</a>
+                <p class="text m-3">Установить рейтинг для цитаты:</p>
+                    <p><a href="#" class="btn btn-success ml-3" id="rate_up_${item.id}">+</a>
                     <a href="#" class="btn btn-success ml-5" id="rate_down_${item.id}">-</a></p>
-                <p id="rating_${item.id}">Рейтинг цитаты: ${item.raiting}</p>
+                <p class="text m-3" id="rating_${item.id}">Рейтинг цитаты: ${item.raiting}</p>
                 <p><a href="#" class="btn btn-success ml-3" id="detail_${item.id}">Подробнее</a>
                 
                     <a href="#" class="edit btn btn-info ml-3" id="edit_${item.id}" data-toggle="modal" data-target="#form_modal">Редактировать</a>
@@ -202,7 +202,7 @@ function getQuotes() {
 function formQuote(){
     quoteForm.on('submit', function(event) {
         event.preventDefault();
-        console.log('yes')
+        console.log('yes');
         addQuote(textInput.val(), authorInput.val(), emailInput.val());
     });
     createLink.on('click', function(event) {
@@ -317,14 +317,14 @@ function quoteDelete(id){
     getQuotes();
 }
 
-// функция увелечения рейтинга
+// функция увеличения рейтинга
 function rateUp(id) {
-    let request = makeRequest('quotes/' + id + '/rate_up', 'post', false);
+    let request = makeRequest('quotes/' + id + '/rate_up', 'post', true);
     request.done(function(data, status, response) {
-        console.log('Rated up quote with id ' + id + '.');
+        console.log('Рейтинг увеличен для цитаты № ' + id + '.');
         $('#rating_' + id).text('Рейтинг цитаты: ' + data.raiting);
     }).fail(function(response, status, message) {
-        console.log('Could not rate up quote with id ' + id + '.');
+        console.log('Рейтинг не увеличен для цитаты № ' + id + '.');
         console.log(response.responseText);
     });
 }
@@ -332,12 +332,12 @@ function rateUp(id) {
 
 // функция уменьшения рейтинга
 function rateDown(id) {
-    let request = makeRequest('quotes/' + id + '/rate_down', 'post', false);
+    let request = makeRequest('quotes/' + id + '/rate_down', 'post', true);
     request.done(function(data, status, response) {
-        console.log('Rated up quote with id ' + id + '.');
+        console.log('Рейтинг увеличен для цитаты № ' + id + '.');
         $('#rating_' + id).text('Рейтинг цитаты: ' +  data.raiting);
     }).fail(function(response, status, message) {
-        console.log('Could not rate up quote with id ' + id + '.');
+        console.log('Рейтинг не увеличен для цитаты № ' + id + '.');
         console.log(response.responseText);
     });
 }

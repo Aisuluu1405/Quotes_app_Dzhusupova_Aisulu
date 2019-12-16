@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from api.serializers import QuoteSerializer
-from webapp.models import Quote, QUETE_VERIFIED
+from webapp.models import Quote, QUETE_VERIFIED, QUOTE_NEW
 
 
 class QuoteViewSet(ModelViewSet):
