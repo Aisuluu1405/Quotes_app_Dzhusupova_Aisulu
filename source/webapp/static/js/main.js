@@ -239,7 +239,7 @@ function quoteView(id){
     request.done(function(item)
     {
         content.empty();
-        content.append($(`<div class="card" id="quote_${item.id}">
+        content.append($(`<div class="card m-5 p-4" id="quote_${item.id}">
                 <p>${item.text}</p>
                 <p>Автор: ${item.author}</p>
                 <p>Статус: ${item.status}</p>

@@ -1,38 +1,14 @@
 [
 {
   "model": "webapp.quote",
-  "pk": 7,
-  "fields": {
-    "text": "\u041d\u0435 \u0441\u0434\u0430\u0432\u0430\u0439\u0441\u044f! AISL!!!!",
-    "author": "\u0414\u043e\u043c\u0430\u0448\u043d\u0435\u0435 \u0437\u0430\u0434\u0430\u043d\u0438\u0435 \u211670 DRF",
-    "create": "2019-12-11T08:27:57.064Z",
-    "status": "verified",
-    "email": "test@test.com",
-    "raiting": 11
-  }
-},
-{
-  "model": "webapp.quote",
-  "pk": 20,
-  "fields": {
-    "text": "\u041a\u043e\u0433\u0434\u0430 \u0447\u0435\u043b\u043e\u0432\u0435\u043a \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043b\u044c\u043d\u043e \u0445\u043e\u0447\u0435\u0442 \u0447\u0435\u0433\u043e-\u0442\u043e, \u0432\u0441\u044f \u0412\u0441\u0435\u043b\u0435\u043d\u043d\u0430\u044f \u0432\u0441\u0442\u0443\u043f\u0430\u0435\u0442 \u0432 \u0441\u0433\u043e\u0432\u043e\u0440, \u0447\u0442\u043e\u0431\u044b \u043f\u043e\u043c\u043e\u0447\u044c \u044d\u0442\u043e\u043c\u0443 \u0447\u0435\u043b\u043e\u0432\u0435\u043a\u0443 \u043e\u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0438\u0442\u044c \u0441\u0432\u043e\u044e \u043c\u0435\u0447\u0442\u0443.",
-    "author": "\u041f\u0430\u0443\u043b\u043e \u041a\u043e\u044d\u043b\u044c\u043e",
-    "create": "2019-12-13T20:18:43.984Z",
-    "status": "new",
-    "email": "test@test.com",
-    "raiting": 12
-  }
-},
-{
-  "model": "webapp.quote",
   "pk": 31,
   "fields": {
     "text": "\u041f\u043e\u0431\u0435\u0434\u0438 \u0441\u0435\u0431\u044f \u0438 \u0432\u044b\u0438\u0433\u0440\u0430\u0435\u0448\u044c \u0442\u044b\u0441\u044f\u0447\u0438 \u0431\u0438\u0442\u0432.",
     "author": "\u0411\u0443\u0434\u0434\u0430",
     "create": "2019-12-13T20:52:39.963Z",
-    "status": "new",
+    "status": "verified",
     "email": "trumpusa@gmail.com",
-    "raiting": 20
+    "raiting": 21
   }
 },
 {
@@ -44,7 +20,31 @@
     "create": "2019-12-13T20:53:42.133Z",
     "status": "new",
     "email": "test@test.com",
-    "raiting": 0
+    "raiting": 15
+  }
+},
+{
+  "model": "webapp.quote",
+  "pk": 35,
+  "fields": {
+    "text": "\u0422\u0415\u0421\u0422\u0422\u0422\u0422",
+    "author": "Dave Lee",
+    "create": "2019-12-16T07:08:22.443Z",
+    "status": "new",
+    "email": "aisuluueco2009@yandex.ru",
+    "raiting": 2
+  }
+},
+{
+  "model": "webapp.quote",
+  "pk": 36,
+  "fields": {
+    "text": "Barack",
+    "author": "Me and he",
+    "create": "2019-12-16T08:31:10.444Z",
+    "status": "verified",
+    "email": "test@test.com",
+    "raiting": 3
   }
 },
 {
