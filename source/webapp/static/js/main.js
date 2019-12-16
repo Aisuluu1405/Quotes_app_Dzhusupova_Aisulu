@@ -36,8 +36,6 @@ function removeToken() {
 
 // функция для входа
 function logIn(username, password) {
-    let editQuote = $(".edit");
-    let deleteQuote = $(".delete");
     const credentials = {username, password};
 
     let request = makeRequest('login', 'post', false, credentials);
@@ -48,9 +46,6 @@ function logIn(username, password) {
         formModal.modal('hide');
         enterLink.addClass('d-none');
         exitLink.removeClass('d-none');
-        editQuote.removeClass('d-none');
-        deleteQuote.removeClass('d-none');
-
         getQuotes();
 
     }).fail(function(response, status, message) {
@@ -61,9 +56,6 @@ function logIn(username, password) {
 
 // функция для выхода
 function logOut() {
-    let editQuote = $(".edit");
-    let deleteQuote = $(".delete");
-
     let request = makeRequest('logout', 'post', true);
 
     request.done(function(data, status, response) {
@@ -71,9 +63,6 @@ function logOut() {
         removeToken();
         enterLink.removeClass('d-none');
         exitLink.addClass('d-none');
-
-        editQuote.addClass('d-none');
-        deleteQuote.addClass('d-none');
         getQuotes();
     }).fail(function(response, status, message) {
         console.log('Could not clean token');
