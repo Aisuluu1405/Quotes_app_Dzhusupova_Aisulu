@@ -154,6 +154,21 @@ function getQuotes() {
                 
                     
             </div>`));
+            $('#detail_' + item.id).on('click', function(event) {
+                console.log('click');
+                event.preventDefault();
+                quoteView(item.id);
+            });
+             $('#edit_' + item.id).on('click', function(event) {
+                event.preventDefault();
+                editForm(item);
+            });
+             $('#delete_' + item.id).on('click', function(event) {
+                console.log('click');
+                event.preventDefault();
+                quoteDelete(item.id);
+            });
+        });
 
     }).fail(function(response, status, message) {
         console.log('Could not get quotes.');
@@ -161,10 +176,133 @@ function getQuotes() {
     });
 }
 
+function formQuote(){
+    quoteForm.on('submit', function(event) {
+        event.preventDefault();
+        console.log('yes')
+        addQuote(textInput.val(), authorInput.val(), emailInput.val());
+    });
+
+    createLink.on('click', function(event) {
+        event.preventDefault();
+        logInForm.addClass('d-none');
+        quoteForm.removeClass('d-none');
+        formTitle.text('Создать');
+        formSubmit.text('Сохранить');
+        formSubmit.off('click');
+        formSubmit.on('click', function(event) {
+            quoteForm.submit()
+        });
+    });
+}
+
+function addQuote(text, author, email) {
+    const credentials = {text, author, email};
+    let token = getToken();
+    if(token){
+        request = makeRequest('quotes', 'post', true, credentials);
+    }
+    else{request = makeRequest('quotes', 'post', false, credentials);}
+    request.done(function (data) {
+        formModal.modal('hide');
+        content.empty();
+        getQuotes();
+        }
+    ).fail(function (response, status, message) {
+        console.log('Цитата не создана!');
+        console.log(response.responseText);
+    });
+
+}
+
+function quoteView(id){
+    let request =  makeRequest('quotes/' + id, 'get', true);
+    request.done(function(item)
+    {
+        content.empty();
+        content.append($(`<div class="card" id="quote_${item.id}">
+                <p>${item.text}</p>
+                <p>Автор: ${item.author}</p>
+                <p>Статус: ${item.status}</p>
+                <p>Рейтинг: ${item.raiting}</p>
+                <p>Создана: ${item.create}</p>
+                <a href="#" class="btn btn-success" id ="home_${item.id}">Назад</a>
+               </div>`));
+        $('#home_' + item.id).on('click', function(event) {
+        console.log('click');
+        event.preventDefault();
+        getQuotes();
+    });
+    }
+
+    ).fail(function(response, status, message){
+        console.log('Цитата не открывается!');
+        console.log(response.responseText);
+    });
+}
+
+
+
+function editForm(item){
+    textInputEdit.val(item.text);
+    ratingInput.val(item.raiting);
+    statusSelect.val(item.status);
+    let updateLink = $('#edit_' + item.id);
+
+    quoteFormEdit.on('submit', function(event) {
+        event.preventDefault();
+        quoteEdit(item.id, textInputEdit.val(), ratingInput.val(), statusSelect.val());
+    });
+
+    console.log('yes');
+    event.preventDefault();
+    logInForm.addClass('d-none');
+    quoteForm.addClass('d-none');
+    quoteFormEdit.removeClass('d-none');
+    formTitle.text('Редактировать');
+    formSubmit.text('Сохранить');
+    formSubmit.off('click');
+    formSubmit.on('click', function(event) {
+        quoteFormEdit.submit()
+    });
+
+
+}
+function quoteEdit(id, text, raiting, status){
+    const credentials = {text, raiting, status};
+    console.log('this');
+    console.log(credentials);
+    let request = makeRequest('quotes/' + id, 'patch', true, credentials);
+    request.done(function (data) {
+        console.log('ok');
+        formModal.modal('hide');
+        getQuotes();
+        }
+    ).fail(function (response, status, message) {
+        console.log('Цитата не отредактирована!');
+        console.log(response.responseText);
+    });
+}
+
+
+function quoteDelete(id){
+    let request = makeRequest('quotes/' + id, 'delete', true);
+    request.done(function(id)
+        {console.log('Цитата удалена!')}
+
+    ).fail(function (response, status, message){
+        console.log('Цитата не удалена!');
+        console.log(response.responseText);
+    });
+    getQuotes();
+}
+
+
 
 $(document).ready(function() {
     setUpGlobalVars();
     setUpAuth();
     checkAuth();
     getQuotes();
+    formQuote();
 });
